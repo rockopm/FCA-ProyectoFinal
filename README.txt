@@ -1,4 +1,7 @@
 
+Información completa del trabajo de Proyecto Final de Fisica Computacional Avanzada.
+	FCA-ProyectoFinal
+
 	+++++++++++++++++++++
 	+ Codigo caracteres +
 	+++++++++++++++++++++
