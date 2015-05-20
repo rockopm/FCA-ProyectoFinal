@@ -241,7 +241,9 @@ end
 ## Producto ###############################################
 
 function *(A::Intervalo, B::Intervalo)
-	if (0 <= A.a) & (0 <= B.a)
+	if ((A.a,A.b) == (0,0)) & ((B.a,B.b) == (-Inf, Inf))   # [0,0] * [-Inf, Inf] == [0,0]
+		return Intervalo(0,0)
+	elseif (0 <= A.a) & (0 <= B.a)
 		return Intervalo(A.a*B.a, A.b*B.b)
 	elseif (A.a < 0 < A.b) & (0 <= B.a)
 		return Intervalo(A.a*B.b, A.b*B.b)
@@ -284,6 +286,7 @@ function -(A::Intervalo)
 end
 
 
+
 ## Division ###############################################
 
 ## Reciproco de un intervalo: 1/[a,b]
@@ -292,24 +295,50 @@ function reciproco(A::Intervalo)
 	if (A.a == 0) & (0 < A.b)
 		return Intervalo(1/A.b, +Inf)
 	elseif A.a < 0 < A.b
-		return union(Intervalo(-Inf, 1/A.a), Intervalo(1/A.b, +Inf))
+		return Intervalo(-Inf,Inf)  # El intervalo mas pequeno que contiene el resultado (union de intervalos disjuntos)
 	elseif (A.a < 0) & (A.b == 0)
 		return Intervalo(-Inf, 1/A.a)
 	elseif (A.a == 0) & (A.b == 0)
-		error("División entre cero.")
+		return Intervalo(NaN,NaN)  # Teorema 3 de Hickey
 	else
 		return Intervalo(1/A.b, 1/A.a)
 	end
 end
 
 ## Division de intervalos
+# Verificar si es mejor la definicion por casos que da Hickey (en cuando a eficiencia)
 
-function /(A::Intervalo, B::Intervalo)
-    if 0 in B
-        error("División entre ::Intervalo que contiene el 0 no está definida")
-    else
-        return A*reciproco(B)
-    end
+function /(X::Intervalo, Y::Intervalo)
+	#Teorema 8 (Hickey)
+	if ((X.a, X.b) == (0,0)) & ((Y.a, Y.b) == (0,0))
+		return Intervalo(NaN, NaN)
+	elseif (0 in X) & ((Y.a, Y.b) == (0,0))
+		return Intervalo(-Inf,Inf)
+	elseif ~(0 in X) & ((Y.a, Y.b) == (0,0))
+		return Intervalo(NaN,NaN)
+	elseif ((X.a, X.b) == (0,0)) & (0 in Y)
+		return Intervalo(-Inf,Inf)
+	elseif  ((X.a, X.b) == (0,0)) & ~(0 in Y)
+		return Intervalo(0,0)	
+	#Teorema 7 de Ratz (Hickey)
+	elseif ~(0 in Y)
+		return X*reciproco(Y)
+	elseif (0 in X) & (0 in Y)
+		return Intervalo(-Inf,Inf)
+	elseif (X.b < 0) & ((Y.a < 0) & (Y.b == 0))
+		return Intervalo(X.b/Y.a, Inf)
+	elseif (X.b < 0) & ((Y.a < 0) & (0 < Y.b))
+		return Intervalo(-Inf, Inf)
+	elseif (X.b < 0) & ((Y.a == 0) & (0 < Y.b))
+		return Intervalo(-Inf, X.b/Y.b)
+	elseif (0 < X.a) & ((Y.a < 0) & (Y.b == 0))
+		return Intervalo(-Inf, X.a/Y.a)
+	elseif (0 < X.a) & ((Y.a < 0) & (0 < Y.b))
+		return Intervalo(-Inf, Inf)
+	elseif (0 < X.a) & ((0 == Y.a) & (0 < Y.b))
+		return Intervalo(X.a/Y.b, Inf)
+	end
+		
 end
 
 ## Division entre constante
@@ -325,12 +354,7 @@ end
 ## Constante entre Intervalo
 
 function /(c::Real, J::Intervalo)
-	rJ = reciproco(J)
-	if typeof(rJ) == Array{Intervalo,1}
-		# union de intervalos no conexos
-	else
-		return c*rJ
-	end
+	return c*reciproco(J)
 end
 
 
@@ -438,27 +462,5 @@ function cos(J::Intervalo)
 	a = [cos(J.a), cos(J.b), cos_cp(m:M-1)]
 	return Intervalo(minimum(a), maximum(a))
 end
-
-
-##########################################
-###    Intervalos multidimensionales   ###
-##########################################
-
-## Calcula la medida de la region dada por los intervalos (area, volumen, ...)
-
-function medida(region::Array{Intervalo,1})
-	s = 1
-	n = length(region)
-	for i = 1:n
-		s *= region[i].b - region[i].a
-	end
-	return s
-end
-
-
-
-
-
-
 
 end
