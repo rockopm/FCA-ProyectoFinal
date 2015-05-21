@@ -234,7 +234,7 @@ end
 ## Constante menos Intervalo
 
 function -(c::Real, J::Intervalo)
-	return Intervalo(c - J.a, J.b - c)
+	return Intervalo(c - J.a, c - J.b)
 end
 
 
