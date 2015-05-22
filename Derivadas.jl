@@ -12,11 +12,16 @@ export Derivada
 ## Crea el tipo derivada
 
 type Derivada
-    fun::Float64
-    dif::Float64
-    ddif::Float64
+    fun #::Float64
+    dif #::Float64
+    ddif #::Float64
 end
 
+using Intervalos
+
+function Derivada(X::Intervalo)
+	return Derivada(X,Intervalo(1,1),Intervalo(0,0))
+end
 
 ### Suma ###################################################################
 
@@ -104,7 +109,7 @@ end
 
 ## Potencia de Derivadas
 
-function ^(a::Derivada, p::Float64)
+function ^(a::Derivada, p::Integer)
     return Derivada(a.fun^p, p*a.fun^(p-1)*a.dif, p*a.fun^(p-2)*(a.dif^2*(p-1) + a.fun*a.ddif))
 end
 
