@@ -47,7 +47,8 @@ function Base.show(io::IO, A::Intervalo)
 		#@printf(io, "[%0.3f, %0.3f]", A.a, A.b)
 		@printf(io, "[empty]")
 	else
-		@printf(io, "[%0.3f, %0.3f]", A.a, A.b)
+		@printf(io, "[%f, %f]", A.a, A.b)
+		#@printf(io, "[%0.3f, %0.3f]", A.a, A.b)
 		#@printf(io, "[empty]")
 	end
 end
@@ -135,7 +136,7 @@ function intersect(A::Intervalo, B::Intervalo)
         if A.a in B
             return A
         else
-            error("Conjunto vacío")
+            Intervalo(NaN,NaN)
         end
     end
 end
@@ -191,6 +192,12 @@ export abs
 
 function abs(X::Intervalo)
 	return max(abs(X.a), abs(X.b))
+end
+
+export rad
+
+function rad(X::Intervalo)
+	return (1/2)*(X.b - X.a)
 end
 
 
