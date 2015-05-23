@@ -26,6 +26,9 @@ end
 function verifica_KrawOp(f::Function, X::Intervalo)
 	m = mid(X)
 	macheps = eps(BigFloat)
+#	if typeof(f(Derivada(m,1,0))) != Derivada
+#		return X
+#	else
 	if f(Derivada(m,1,0)).dif == 0
 		return Intervalo(X.a - macheps, X.b + macheps)
 	else
@@ -64,9 +67,13 @@ function eleccionIntervalos(raices::Array{Intervalo,1}, f::Function)
 		if hayraices(raices[i],K)
 			Xk = intersect(raices[i], K)
 			(XLeft, XRight) = divide(Xk)
-			push!(eliminados, raices[i])
-			push!(candidatos,XLeft)
-			push!(candidatos,XRight)
+			push!(eliminados,raices[i])
+			if hayraices(XLeft, KrawOp(XLeft,f))
+				push!(candidatos,XLeft)
+			end
+			if hayraices(XRight, KrawOp(XRight,f))
+				push!(candidatos,XRight)
+			end
 		else
 			push!(eliminados,raices[i])
 		end
@@ -84,13 +91,31 @@ function tol(raices::Array{Intervalo,1}, err)
 	return b
 end
 
-function ceros(X::Intervalo, f::Function)
+function ceros(X::Intervalo, f::Function, err)
 	X = verifica_KrawOp(f,X)
 	raices = Intervalo[X]
-	while ~tol(raices, 2.0^(-10))
+	while ~tol(raices, err)
 		raices = eleccionIntervalos(raices,f)
 	end
-	return raices
+	n = length(raices)
+	result = Intervalo[]
+	if n > 1
+		for i = 1:n-1
+			I = intersect(raices[i], raices[i+1])
+			if isempty(I)
+				push!(result,raices[i])
+			else
+				push!(result,I)
+			end
+		end
+		I = intersect(raices[n-1], raices[n])
+		if isempty(I)
+			push!(result,raices[n])
+		end
+	else
+		result = raices
+	end
+	return result
 end
 
 end
