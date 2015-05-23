@@ -42,16 +42,16 @@ type Intervalo
 end
 
 
-function Base.show(io::IO, A::Intervalo)
-	if isnan(A.a) || isnan(A.b)
-		#@printf(io, "[%0.3f, %0.3f]", A.a, A.b)
-		@printf(io, "[empty]")
-	else
-		@printf(io, "[%f, %f]", A.a, A.b)
+#function Base.show(io::IO, A::Intervalo)
+#	if isnan(A.a) || isnan(A.b)
+#		#@printf(io, "[%0.3f, %0.3f]", A.a, A.b)
+#		@printf(io, "[empty]")
+#	else
+#		@printf(io, "[%f, %f]", A.a, A.b)
 		#@printf(io, "[%0.3f, %0.3f]", A.a, A.b)
 		#@printf(io, "[empty]")
-	end
-end
+#	end
+#end
 
 
 
