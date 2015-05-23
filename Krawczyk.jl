@@ -18,7 +18,7 @@ function KrawOp(X::Intervalo, f::Function)
 	r = rad(X)
 	DX = Derivada(X,Intervalo(1,1),Intervalo(0,0))
 	dm = Derivada(m,1,0)
-	return m - f(m)/f(dm).dif - (1 - f(DX).dif/f(dm).dif)*Intervalo(-r,r)
+	return m - f(dm).dif/f(dm).ddif - (1 - f(DX).ddif/f(dm).ddif)*Intervalo(-r,r)
 end
 
 ## Verifica si el operador K esta bien definido, es decir, si f'(m) NO ES CERO, y modifica el intervalo.
@@ -29,7 +29,7 @@ function verifica_KrawOp(f::Function, X::Intervalo)
 #	if typeof(f(Derivada(m,1,0))) != Derivada
 #		return X
 #	else
-	if f(Derivada(m,1,0)).dif == 0
+	if f(Derivada(m,1,0)).ddif == 0
 		return Intervalo(X.a - macheps, X.b + macheps)
 	else
 		return X
@@ -115,7 +115,15 @@ function ceros(X::Intervalo, f::Function, err)
 	else
 		result = raices
 	end
-	return result
+	if isempty(result)
+		if min(f(X.a),f(X.b)) == f(X.a)
+			return Intervalo(X.a,X.a)
+		else
+			return Intervalo(X.b,X.b)
+		end
+	else
+		return result
+	end
 end
 
 end
