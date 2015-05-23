@@ -64,6 +64,12 @@ function -(x::Derivada, c)
     return Derivada(x.fun - c, x.dif)
 end
 
+# Derivada negativa (por menos uno)
+
+function -(x::Derivada)
+	return (-1)*x
+end
+
 
 ### Producto ###############################################################
 
