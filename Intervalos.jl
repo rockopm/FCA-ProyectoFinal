@@ -96,7 +96,7 @@ function in(x, A::Intervalo)
 	if isempty(A)
 		return false
 	end
-    if A.a <= x <= A.b
+    if A.a <= BigFloat("$x") <= A.b
         return true
     else
         return false
@@ -390,6 +390,11 @@ function ^(J::Intervalo, p::Real)   # Para potencias reales
     end
 end
 
+## sqrt
+
+function sqrt(J::Intervalo)
+	return X^(1/2)
+end
 
 
 ## Defino la operacion 'exp(Intervalo)'
