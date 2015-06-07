@@ -92,6 +92,10 @@ function tol(raices::Array{Intervalo,1}, err)
 end
 
 function ceros(X::Intervalo, f::Function, err)
+	if typeof(f(X)) != Intervalo  # cte(x) = c aqui c es un real
+		return X
+	end
+	# Corregir Id(x) = x
 	X = verifica_KrawOp(f,X)
 	raices = Intervalo[X]
 	while ~tol(raices, err)
