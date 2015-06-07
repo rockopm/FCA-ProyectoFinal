@@ -86,7 +86,7 @@ function optimiza(X::Intervalo, f::Function, err)
 	if typeof(f(X)) != Intervalo  # cte(x) = c aqui c es un real
 		return X
 	end
-	if (Derivada(f(X)).ddif.a == 0) & (Derivada(f(X)).ddif.b == 0)
+	if (f(Derivada(mid(X),1,0)).ddif == 0) & (f(Derivada(X.a,1,0)).ddif == 0) & (f(Derivada(X.b,1,0)).ddif == 0)
 		mincte = min(f(X.a), f(X.b))
 		return Intervalo(mincte, mincte)
 	end
