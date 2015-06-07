@@ -3,13 +3,7 @@ module Krawczyk
 using Derivadas
 using Intervalos
 
-export KrawOp, verifica_KrawOp, divide, hayraices, eleccionIntervalos, tol, ceros
-
-#function KrawOp(X::Intervalo, f::Function, df::Function)
-#	m = mid(X)
-#	r = rad(X)
-#	return m - f(m)/df(m) - (1 - df(X)/df(m))*Intervalo(-r,r)
-#end
+export KrawOp, verifica_KrawOp, divide, hayraices, eleccionIntervalos, tol, optimiza
 
 ## Calcula operador de Krawczyk
 
@@ -59,7 +53,6 @@ end
 ## Proceso del metodo de Krawczyk
 
 function eleccionIntervalos(raices::Array{Intervalo,1}, f::Function)
-	#raices = Intervalo[X]
 	candidatos = Intervalo[]
 	eliminados = Intervalo[]
 	for i = 1:length(raices)
@@ -78,8 +71,6 @@ function eleccionIntervalos(raices::Array{Intervalo,1}, f::Function)
 			push!(eliminados,raices[i])
 		end
 	end
-#	return raices
-#	raices = union(setdiff(raices,eliminados), candidatos)
 	candidatos
 end
 
@@ -91,11 +82,14 @@ function tol(raices::Array{Intervalo,1}, err)
 	return b
 end
 
-function ceros(X::Intervalo, f::Function, err)
+function optimiza(X::Intervalo, f::Function, err)
 	if typeof(f(X)) != Intervalo  # cte(x) = c aqui c es un real
 		return X
 	end
-	# Corregir Id(x) = x
+	if (Derivada(f(X)).ddif.a == 0) & (Derivada(f(X)).ddif.b == 0)
+		mincte = min(f(X.a), f(X.b))
+		return Intervalo(mincte, mincte)
+	end
 	X = verifica_KrawOp(f,X)
 	raices = Intervalo[X]
 	while ~tol(raices, err)
