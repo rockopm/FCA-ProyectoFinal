@@ -55,13 +55,13 @@ end
 # Resta menos constante
 
 function -(c, x::Derivada)
-    return Derivada(c - x.fun, x.dif)
+    return Derivada(c - x.fun, -x.dif, -x.ddif)
 end
 
 ## Derivada menos constante
 
 function -(x::Derivada, c)
-    return Derivada(x.fun - c, x.dif)
+    return Derivada(x.fun - c, x.dif, x.ddif)
 end
 
 # Derivada negativa (por menos uno)
@@ -113,9 +113,15 @@ end
 
 ### Potencia ##############################################################
 
-## Potencia de Derivadas
+## Potencia entera de Derivadas
 
 function ^(a::Derivada, p::Integer)
+    return Derivada(a.fun^p, p*a.fun^(p-1)*a.dif, p*a.fun^(p-2)*(a.dif^2*(p-1) + a.fun*a.ddif))
+end
+
+## Potencia real de Derivadas 
+
+function ^(a::Derivada, p::Real)
     return Derivada(a.fun^p, p*a.fun^(p-1)*a.dif, p*a.fun^(p-2)*(a.dif^2*(p-1) + a.fun*a.ddif))
 end
 
