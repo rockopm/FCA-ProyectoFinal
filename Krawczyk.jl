@@ -83,20 +83,35 @@ function tol(raices::Array{Intervalo,1}, err)
 end
 
 function optimiza(X::Intervalo, f::Function, err)
-	if typeof(f(X)) != Intervalo  # cte(x) = c aqui c es un real
+
+	# Para la funcion constante
+	
+	if typeof(f(X)) != Intervalo 
 		return X
 	end
+	
+	# Si segunda derivada es cero
+	
 	if (f(Derivada(mid(X),1,0)).ddif == 0) & (f(Derivada(X.a,1,0)).ddif == 0) & (f(Derivada(X.b,1,0)).ddif == 0)
 		mincte = min(f(X.a), f(X.b))
 		return Intervalo(mincte, mincte)
 	end
+	
+	# Resto de funciones
+	
 	X = verifica_KrawOp(f,X)
 	raices = Intervalo[X]
 	while ~tol(raices, err)
 		raices = eleccionIntervalos(raices,f)
 	end
 	n = length(raices)
+	
+	# Arreglo con intervalos que contienen raiz de derivada
+	
 	result = Intervalo[]
+	
+	# Llena el arreglo
+	
 	if n > 1
 		for i = 1:n-1
 			I = intersect(raices[i], raices[i+1])
@@ -113,14 +128,25 @@ function optimiza(X::Intervalo, f::Function, err)
 	else
 		result = raices
 	end
-	if isempty(result)
+	
+	# Elige intervalos que contienen minimo
+	
+	if isempty(result)   # Funcion monotona
 		if min(f(X.a),f(X.b)) == f(X.a)
-			return Intervalo(X.a,X.a)
+			return (X.a, Intervalo(X.a,X.a))
 		else
-			return Intervalo(X.b,X.b)
+			return (X.b, Intervalo(X.b,X.b))
 		end
-	else
-		return result
+	else   # Elige el minimo
+		indiceinfimo = findmin([mid(result[i]) for i = 1:length(result)])[2]
+		intervalominimo = findmin([f(X.a), f(mid(result[indiceinfimo])), f(X.b)])[2]
+		if intervalominimo == 1
+			return (f(X.a), Intervalo(X.a,X.a))
+		elseif intervalominimo == 2
+			return (f(mid(result[indiceinfimo])), result[indiceinfimo])
+		elseif intervalominimo == 3
+			return (f(X.b), Intervalo(X.b,X.b))
+		end
 	end
 end
 
