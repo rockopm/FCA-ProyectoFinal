@@ -2,14 +2,14 @@ module Funciones
 
 export CON, ID, CH, GL, R, POL, ER, J, PL
 
-CON(x) = 5
-ID(x) = x
-CH(x) = exp(-x).*(x.^2-2*x+1)
-GL(x) = exp(-(x-5).^3) + x
-R(x) = (x.^2).*(exp(-x)).*sin(1./x.^2) #Tener cuidado con el dominio
-POL(x) = x.^4 - pi*x.^3 + 3*x.^2 - 4*x + 5
-ER(x) = sin(1./(1-x).^2).*sqrt(x)
-J(x) = sqrt(107)*(-log(x))*x.^2
-PL(x) = x.^9
+CTE(X) = 5
+ID(X) = X
+CH(X) = exp(-X)*(X^2-2*X+1)
+GL(X) = exp(-(X-5)^3) + X
+R(X) = (X^2)*(exp(-X))*sin(1/X^2) #Tener cuidado con el dominio
+POL(X) = X^4 - pi*X^3 + 3*X^2 - 4*X + 5
+ER(X) = sin(1/(1-X)^2)*sqrt(X)
+J(X) = sqrt(107)*(-log(X))*X^2
+PL(X) = X^9
 
 end
