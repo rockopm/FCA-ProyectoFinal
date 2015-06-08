@@ -138,7 +138,7 @@ function optimiza(X::Intervalo, f::Function, err)
 			return (X.b, Intervalo(X.b,X.b))
 		end
 	else   # Elige el minimo
-		indiceinfimo = findmin([mid(result[i]) for i = 1:length(result)])[2]
+		indiceinfimo = findmin([f(mid(result[i])) for i = 1:length(result)])[2]
 		intervalominimo = findmin([f(X.a), f(mid(result[indiceinfimo])), f(X.b)])[2]
 		if intervalominimo == 1
 			return (f(X.a), Intervalo(X.a,X.a))
