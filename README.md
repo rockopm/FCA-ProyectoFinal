@@ -1,5 +1,7 @@
 *Maestría en Ciencias Físicas: Física Computacional Avanzada*
 
+Notebook: https://juliabox.org/notebooks/proyecto_final/proyecto_final.ipynb
+
 ---
 
 # Código para encontrar rigurosamente el mínimo de una función en un intervalo
@@ -11,8 +13,7 @@
 
 ---
 
-*
-**Abstract: ** El problema de optimización de funciones es ubicuo en el mundo de las matemáticas aplicadas. La física, las finanzas, la biología, las ecuaciones diferenciales y demás ciencias que utilizan las matemáticas como herramienta de estudio convergen en algún punto en algún problema de optimización. Además, la complejidad de los nuevos modelos matemáticos desarrollados en estas ciencias nos obligan a hacer uso de herramientas computacionales cuando estos carecen de soluciones en forma cerradas. Existen métodos numéricos desarrollados para resolver el problema de encontrar el mínimo de una función dada una aproximación inicial, pero la mayoría de estos arrojan soluciones que dependen de esta primera aproximación dada por el usuario. Sin embargo, los métodos para encontrar raíces de funciones han sido extendidos para utilizar intervalos como aproximación inicial, en vez de puntos, por lo que el hecho de que $f'(x) = 0$ implique un punto crítico de $f$ nos ayuda a mejorar estos métodos para encontrar raíces de la derivada de esta función y así concluir si es un mínimo o no. En este trabajo desarrollamos un código rigusoro basado en el **método de Krawczyk** para encontrar los mínimos de una función en un intervalo dado por el usuario. Utilizamos un catálogo de **funciones suaves** para mostrar la efectividad del método.*
+**Abstract**: El problema de optimización de funciones es ubicuo en el mundo de las matemáticas aplicadas. La física, las finanzas, la biología, las ecuaciones diferenciales y demás ciencias que utilizan las matemáticas como herramienta de estudio convergen en algún punto en algún problema de optimización. Además, la complejidad de los nuevos modelos matemáticos desarrollados en estas ciencias nos obligan a hacer uso de herramientas computacionales cuando estos carecen de soluciones en forma cerradas. Existen métodos numéricos desarrollados para resolver el problema de encontrar el mínimo de una función dada una aproximación inicial, pero la mayoría de estos arrojan soluciones que dependen de esta primera aproximación dada por el usuario. Sin embargo, los métodos para encontrar raíces de funciones han sido extendidos para utilizar intervalos como aproximación inicial, en vez de puntos, por lo que el hecho de que f'(x) = 0 implique un punto crítico de f nos ayuda a mejorar estos métodos para encontrar raíces de la derivada de esta función y así concluir si es un mínimo o no. En este trabajo desarrollamos un código rigusoro basado en el **método de Krawczyk** para encontrar los mínimos de una función en un intervalo dado por el usuario. Utilizamos un catálogo de **funciones suaves** para mostrar la efectividad del método.
 
 ## Método de Krawczyk
 
