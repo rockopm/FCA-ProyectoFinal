@@ -1,8 +1,3 @@
-# !\usr\bin\julia
-
-## terminar la division correctamente
-## verificar la union de intervalos
-
 module Intervalos
 
 import Base.in
@@ -380,7 +375,6 @@ function ^(J::Intervalo, n::Integer)   # Solo para potencias enteras
     end
 end
 
-
 function ^(J::Intervalo, p::Real)   # Para potencias reales
     if p == int(p)
         return J^int(p)
@@ -392,8 +386,10 @@ end
 
 ## sqrt
 
+#export sqrt
+
 function sqrt(J::Intervalo)
-	return X^(1/2)
+	return J^(1/2)
 end
 
 
