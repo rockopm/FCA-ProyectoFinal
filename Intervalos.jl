@@ -50,22 +50,6 @@ end
 
 
 
-
-## NOTA
-## La instruccion 'using' para modulos hace que las definiciones exportadas en el modulo se puedan utilizar como definiciones
-## construidas en el Main y las que no se importaron se puedan utilizar como objetos de MyModule, e.g. MyModule.p funcion en
-## vez de p(), y que p no se exporto en el modulo. Pero si yo uso 'import' para añadir este modulo al workspace, entonces todas
-## las definiciones seran usadas como objetos del modulo, independientemente de si se exportaron o no en el modulo, es decir, 
-## x() no funciona, pero MyModule.x si funciona.
-
-
-## Para usar un modulo desde un archivo ##
-## Primero incluyo el archivo con
-## 		include("/home/rocko/Documentos/Posgrado/julia/intervalos.jl")
-## Segundo, import el modulo con:
-## 		import Intervalos
-
-
 #########################################################
 ### Defino operaciones de conjuntos para intervalos   ###
 #########################################################
@@ -136,6 +120,13 @@ function intersect(A::Intervalo, B::Intervalo)
     end
 end
 
+function ==(A::Intervalo, B::Intervalo)
+	if (A in B) & (B in A)
+		return true
+	else
+		return false
+	end
+end
 
 ## Defino la operacion 'union' de intervalos
 
