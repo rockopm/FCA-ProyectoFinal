@@ -23,6 +23,14 @@ function Derivada(X::Intervalo)
 	return Derivada(X,Intervalo(1,1),Intervalo(0,0))
 end
 
+function ==(a::Derivada, b::Derivada)
+	if (a.fun == b.fun) & (a.dif == b.dif) & (a.ddif == b.ddif)
+		return true
+	else
+		return false
+	end
+end
+
 ### Suma ###################################################################
 
 ## Suma de Derivadas
@@ -33,13 +41,13 @@ end
 
 ## Suma mas constante
 
-function +(c, x::Derivada)
+function +(c::Real, x::Derivada)
     return Derivada(c + x.fun, x.dif, x.ddif )
 end
 
 ## Constante mas Derivada
 
-function +(x::Derivada, c)
+function +(x::Derivada, c::Real)
     return Derivada(c + x.fun, x.dif, x.ddif)
 end
 
@@ -54,13 +62,13 @@ end
 
 # Resta menos constante
 
-function -(c, x::Derivada)
+function -(c::Real, x::Derivada)
     return Derivada(c - x.fun, -x.dif, -x.ddif)
 end
 
 ## Derivada menos constante
 
-function -(x::Derivada, c)
+function -(x::Derivada, c::Real)
     return Derivada(x.fun - c, x.dif, x.ddif)
 end
 
@@ -81,13 +89,13 @@ end
 
 ## Producto por constante
 
-function *(c, x::Derivada)
+function *(c::Real, x::Derivada)
 	return Derivada(c*x.fun, c*x.dif, c*x.ddif)
 end
 
 ## Constante por producto
 
-function *(x::Derivada, c)
+function *(x::Derivada, c::Real)
 	return Derivada(c*x.fun, c*x.dif, c*x.diff)
 end
 
@@ -101,13 +109,13 @@ end
 
 ## Constante entre derivada
 
-function /(c, x::Derivada)
+function /(c::Real, x::Derivada)
 	return Derivada(c/x.fun, -(c*x.dif)/x.fun^2, -c/x.fun^2*(x.ddif - 2*x.dif^2/x.fun))
 end
 
 ## Derivada entre constante
 
-function /(x::Derivada, c)
+function /(x::Derivada, c::Real)
 	return Derivada(x.fun/c, x.dif/c, x.ddif/c)
 end
 
