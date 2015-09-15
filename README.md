@@ -6,10 +6,9 @@ Notebook: https://juliabox.org/notebooks/proyecto_final/proyecto_final.ipynb
 
 # Código para encontrar rigurosamente el mínimo de una función en un intervalo
 
-**Christian Marchen (1), Rodrigo Pineda Mondragón (2)**
+**(1) Rodrigo Pineda Mondragón**
 
-(1) Maestría en Ciencias Matemáticas, IIMAS, UNAM. GitHub: hierro40
-(2) Maestría en Ciencias Matemáticas, IIMAS, UNAM. GitHub: rockopm
+(1) Maestría en Ciencias Matemáticas, IIMAS, UNAM. GitHub: rockopm
 
 ---
 
