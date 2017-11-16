@@ -24,7 +24,7 @@ En el módulo de `Krawczyk.jl` se construye la función `optimiza(X::Intervalo, 
 
 ## Módulos
 
-###Derivadas.jl
+### Derivadas.jl
 
 Utilizamos el hecho de que las si $x^*$ es mínimo de $f$ entonces $f'(x^*) = 0$. De esta forma, utilizamos el método de Krawczyk en las derivada de la función $f$ para encontrar los mínimos en un intervalo $X$ de $f$.
 
